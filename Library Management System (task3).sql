@@ -178,3 +178,40 @@ FROM Customer
 JOIN IssueStatus ON Customer.Customer_Id = IssueStatus.Issued_cust
 JOIN Books ON IssueStatus.Isbn_book = Books.ISBN
 WHERE Books.Rental_Price > 10;
+
+
+-- ORDER BY
+SELECT Customer_Id, Customer_name, Reg_date
+FROM Customer
+ORDER BY Reg_date DESC;
+
+-- INNER JOIN
+SELECT c.Customer_name, i.Issued_book_name, i.Issue_date
+FROM IssueStatus i
+INNER JOIN Customer c ON i.Issued_cust = c.Customer_Id;
+
+-- RIGHT JOIN
+SELECT b.Book_title, r.Return_date
+FROM Books b
+RIGHT JOIN ReturnStatus r ON b.ISBN = r.Isbn_book2;
+
+-- SUBQUERY
+SELECT Customer_Id, Customer_name
+FROM Customer
+WHERE Customer_Id IN (
+    SELECT Issued_cust
+    FROM IssueStatus
+    GROUP BY Issued_cust
+    HAVING COUNT(*) > 1
+);
+-- aggregate functions(sum & avg)
+-- SUM FUNCTION
+SELECT Branch_no, SUM(Salary) AS Total_Salary
+FROM Employees
+GROUP BY Branch_no;
+
+-- avg function
+SELECT Category, AVG(Rental_Price) AS Avg_Price
+FROM Books
+GROUP BY Category;
+
